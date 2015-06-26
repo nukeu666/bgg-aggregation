@@ -1,0 +1,72 @@
+<head>
+  <meta http-equiv="cleartype" content="on">
+  <meta name="MobileOptimized" content="320">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+   {{>mainBody}}
+</body>
+
+<template name='mainBody'>
+  <div class='container'>
+  {{#if isPhone}}
+    <nav id="menu">
+      <header>
+        <h3>Userlist</h3>
+        {{>userList}}
+      </header>
+    </nav>
+  {{/if}}
+  <main id="panel">
+    <div class="col-xs-11 col-md-8 col-lg-6 init-fields col-centered">
+      <input id='nameList' class="form-control" placeholder="Enter comma seperated bgg names">
+    </div>
+    <div class="col-xs-4 init-fields col-centered btn-pad-u4">
+      <button id='getIt' class='btn btn-primary btn-block margin-top:4px'>Get list</button>
+    </div>
+    <div class="col-xs-6 init-hide">
+      <button id='reset' class='btn btn-primary btn-block'>Reset</button>
+    </div>
+    <div class="col-xs-6 init-hide">
+      <button id='save' class='btn btn-primary btn-block'>Save</button>
+    </div>
+    {{#if isDesktop}}
+      {{> userList}}
+    {{/if}}
+    <div class="init-hide">
+      {{#unless syncing}}
+        {{> reactiveTable collection=reactiveFunc settings=settings}} 
+      {{/unless}}
+    </div>
+  </main>
+  </div>
+</template>
+
+<template name='userList'>
+   {{#each members}}
+      <div class='col-md-4 col-lg-2 users'>
+        {{#if badId}}
+        <button type='button' class='btn btn-danger btn-block btn-pad4'>{{member}}</button>
+        {{else}}
+        <button type='button' class='btn btn-success btn-block btn-pad4'>{{member}}</button>
+        {{/if}}
+      </div>
+   {{/each}}
+</template>
+
+<template name='gamesList'>
+  <div class="row">
+    <table class='table table-striped'>
+      {{#each game}}
+        <tr>
+          <td class='col-xs-2'>{{gameName}}</td>
+          <td class='col-xs-10'>{{user}}</td> 
+        </tr>
+     {{/each}}
+    </table>
+  </div>
+</template>
+
