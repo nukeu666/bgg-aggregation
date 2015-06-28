@@ -1,5 +1,6 @@
 Session.set('members',[]);
 subs=new ReactiveDictx();//[];
+var resetSyncing = false;
 //http://stackoverflow.com/questions/12298640/meteors-subscription-and-sync-are-slow
 //https://registry.hub.docker.com/u/meteorhacks/meteord/
 //http://themeteorchef.com/recipes/writing-a-package/
@@ -140,16 +141,17 @@ function isEmpty(str){
   return (!str||0===str.length);
 }
 
-//var resetSyncing = false;
-var userMap = new Map();
+
 Tracker.autorun(function(){
+  var userMap = new Map();
   Session.set('syncing',true);
   console.log('syncing on');
-  var sortedGameObj = GamesDB.find();     //,{fields:{game:1},sort:{game:1}});
   var x=subs.all();
   if(resetSyncing) Meteor.clearTimeout(resetSyncing);
   resetSyncing=Meteor.setTimeout(function(){
     GamesProcessedDB.remove({});
+    console.log('rem');
+    var sortedGameObj = GamesDB.find();
     console.log('sync off');
     Session.set('syncing',false);
     sortedGameObj.forEach(function(e){
@@ -162,7 +164,7 @@ Tracker.autorun(function(){
       }
     });
     userMap.forEach(function(v,k,m){
-       GamesProcessedDB.insert({game:k,user:v.user});
+      GamesProcessedDB.insert({game:k,user:v.user});
     });
   },500);
 });
