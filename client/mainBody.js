@@ -46,7 +46,7 @@ Template.mainBody.events({
       var names=$('#nameList').val();//.split(',');
       //for(var i in names) {
      //   if(names[i].trim().length>0){
-          Meteor.call('getCollections','bggtemp',names,push(names));
+          Meteor.call('getCollections','bgg',names,push(names));
     //    }
     //  }
     }
